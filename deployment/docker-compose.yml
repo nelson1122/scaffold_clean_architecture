@@ -1,0 +1,51 @@
+name: devlocal
+services:
+  ms-customer-statistics:
+    build: .
+    container_name: ms-customer-statistics
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      AWS_DYNAMODB_ENDPOINT: http://dynamodb:8000
+      AWS_RABBIT_HOST: rabbitmq
+    networks:
+      - netlocal
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - netlocal
+  dynamodb:
+    image: instructure/dynamo-local-admin
+    container_name: dynamodb
+    ports:
+      - "8010:8000"
+    networks:
+      - netlocal
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566-4599:4566-4599"
+    environment:
+      - SERVICES=sqs,serverless,kms,secretsmanager
+      - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/tmp/localstack/data
+      - LAMBDA_EXECUTOR=local
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - START_WEB=1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_SESSION_TOKEN=test
+    networks:
+      - netlocal
+volumes:
+  rabbit:
+    driver: local
+networks:
+  netlocal:
+    driver: bridge

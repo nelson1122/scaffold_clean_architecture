@@ -1,0 +1,32 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+	implementation project(':mq-listener')
+	implementation project(':reactive-web')
+	implementation project(':mq-sender')
+	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+	implementation project(':dynamo-db')
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.reactivecommons:async-commons-rabbit-starter:1.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+    testImplementation 'com.tngtech.archunit:archunit:1.4.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind'
+
+}
+
+tasks.register('explodedJar', Copy) {
+    with jar
+    into layout.buildDirectory.dir("exploded")
+}
+
+jar {
+    // To disable the *-plain.jar
+    enabled = false
+}
+
+bootJar {
+    // Sets output jar name
+    archiveFileName = "${project.getParent().getName()}.${archiveExtension.get()}"
+}

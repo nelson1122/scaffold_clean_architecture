@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':model')
+    implementation 'org.reactivecommons:async-commons-rabbit-starter:1.0.3'
+    implementation 'org.springframework:spring-context'
+}
