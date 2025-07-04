@@ -1,0 +1,14 @@
+curl --location 'http://localhost:8080/api/v1/stats' \
+--header 'Content-Type: application/json' \
+--data '{
+    "data": {
+        "totalCustomerContacts": 250,
+        "claimReason": 25,
+        "warrantyReason": 10,
+        "doubtReason": 100,
+        "purchaseReason": 100,
+        "congratulationsReason": 7,
+        "changeReason": 8,
+        "hash": "5484062a4be1ce5645eb414663e14f59"
+    }
+}'
